@@ -2,6 +2,8 @@ package hanoi;
 
 import util.*;
 
+import java.security.InvalidParameterException;
+
 public class Hanoi {
     private final Stack<Integer> leftTower = new Stack<>();
     private final Stack<Integer> middleTower = new Stack<>();
@@ -15,30 +17,39 @@ public class Hanoi {
     }
 
     public Hanoi(int disks, HanoiDisplayer displayer) {
-        for (int i = disks - 1; i >= 0; --i) {
-            leftTower.push(i + 1);
+        if (disks < 1){
+            throw new InvalidParameterException("Invalid parameter: disks should be greater than or equal to 1.");
+        }
+
+        if (displayer == null){
+            throw new InvalidParameterException("Invalid parameter: displayer cannot be null.");
+        }
+
+        for (int i = disks; i > 0; --i) {
+            leftTower.push(i);
         }
 
         this.displayer = displayer;
     }
 
     private void solve(int n, Stack<Integer> start, Stack<Integer> end, Stack<Integer> intermediate) {
-        if (n != 0) {
-            solve(n - 1, start, intermediate, end);
-
-            end.push(start.pop());
-
-            ++this.turn;
-            displayer.display(this);
-
-            solve(n - 1, intermediate, end, start);
+        if (n == 0) {
+            return;
         }
+
+        solve(n - 1, start, intermediate, end);
+
+        end.push(start.pop());
+
+        ++turn;
+        displayer.display(this);
+
+        solve(n - 1, intermediate, end, start);
     }
 
     public void solve() {
         displayer.display(this);
-        int size = leftTower.size();
-        solve(size, leftTower, rightTower, middleTower);
+        solve(leftTower.size(), leftTower, rightTower, middleTower);
     }
 
     public int[][] status() {
@@ -47,6 +58,10 @@ public class Hanoi {
                 asIntArray(middleTower.toArray()),
                 asIntArray(rightTower.toArray())
         };
+    }
+
+    public int turn() {
+        return turn;
     }
 
     private static int[] asIntArray(Object[] array) {
@@ -61,20 +76,15 @@ public class Hanoi {
         return middleTower.size() == 0 && leftTower.size() == 0;
     }
 
-    public int turn() {
-        return turn;
-    }
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
 
-    public Stack<Integer> getLeftTower() {
-        return leftTower;
-    }
-
-    public Stack<Integer> getMiddleTower() {
-        return middleTower;
-    }
-
-    public Stack<Integer> getRightTower() {
-        return rightTower;
+        sb.append("--Turn: ").append(turn).append("\n");
+        sb.append("One:   ").append(leftTower).append("\n");
+        sb.append("Two:   ").append(middleTower).append("\n");
+        sb.append("Three: ").append(rightTower);
+        return sb.toString();
     }
 }
 

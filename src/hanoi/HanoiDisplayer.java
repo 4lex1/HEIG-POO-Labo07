@@ -6,9 +6,6 @@ public class HanoiDisplayer {
             throw new RuntimeException("hanoi is null.");
         }
 
-        System.out.println("--Turn: " + h.turn());
-        System.out.println("One:   [ " + h.getLeftTower() + "]");
-        System.out.println("Two:   [ " + h.getMiddleTower() + "]");
-        System.out.println("Three: [ " + h.getRightTower() + "]");
+        System.out.println(h);
     }
 }
