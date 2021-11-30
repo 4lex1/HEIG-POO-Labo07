@@ -6,10 +6,6 @@ import java.util.NoSuchElementException;
 public class Stack<T> implements Iterable<T> {
     private Node<T> first;
 
-    public Stack() {
-
-    }
-
     public Stack<T> push(T element) {
         first = new Node<>(element, first);
         return this;
@@ -63,4 +59,3 @@ public class Stack<T> implements Iterable<T> {
     }
 
 }
-
