@@ -1,27 +1,27 @@
 package util;
 
+import java.util.Arrays;
+import java.util.EmptyStackException;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class Stack<T> implements Iterable<T> {
     private Node<T> first;
-
-    public Stack() {
-
-    }
+    private int size;
 
     public Stack<T> push(T element) {
         first = new Node<>(element, first);
+        ++size;
         return this;
     }
 
     public T pop() {
         if (first == null) {
-            throw new NoSuchElementException();
+            throw new EmptyStackException();
         }
 
         T elem = first.getElement();
         first = first.getNext();
+        --size;
         return elem;
     }
 
@@ -29,38 +29,48 @@ public class Stack<T> implements Iterable<T> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        for (T t : this) {
-            sb.append("<").append(t).append("> ");
+        sb.append("[ ");
+
+        for (T el : this) {
+            sb.append("<").append(el).append("> ");
         }
+
+        sb.append("]");
 
         return sb.toString();
     }
 
     public Object[] toArray() {
-        Object[] result = new Object[size()];
+        Object[] result = new Object[size];
 
         int i = 0;
-        for (T t : this) {
-            result[i] = t;
-            ++i;
+        for (T el : this) {
+            result[i++] = el;
         }
 
         return result;
     }
 
-    public int size() {
-        int value = 0;
-
-        for (T t : this) {
-            value++;
+    @SuppressWarnings("unchecked")
+    public T[] toArray(T[] a){
+        if (a.length < size){
+            return (T[]) Arrays.copyOf(toArray(), size, a.getClass());
         }
 
-        return value;
+        int i = 0;
+        for (T el : this){
+            a[i++] = el;
+        }
+
+        return a;
+    }
+
+    public int size() {
+        return size;
     }
 
     public Iterator<T> iterator() {
         return new StackIterator<>(first);
     }
-
 }
 

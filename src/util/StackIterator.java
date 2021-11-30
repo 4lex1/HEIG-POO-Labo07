@@ -3,17 +3,17 @@ package util;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class StackIterator<T> implements Iterator<T> {
+class StackIterator<T> implements Iterator<T> {
     private Node<T> current;
 
-    public StackIterator(Node<T> element) {
+    StackIterator(Node<T> element) {
         current = element;
     }
 
     @Override
     public T next() {
         if (current == null) {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("trying to access null element.");
         }
 
         T element = current.getElement();

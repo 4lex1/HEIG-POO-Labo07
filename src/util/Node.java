@@ -1,19 +1,19 @@
 package util;
 
-public class Node<T> {
+class Node<T> {
     private final T element;
     private final Node<T> next;
 
-    public Node(T element, Node<T> next) {
+    Node(T element, Node<T> next) {
         this.element = element;
         this.next = next;
     }
 
-    public Node<T> getNext() {
+    Node<T> getNext() {
         return next;
     }
 
-    public T getElement() {
+    T getElement() {
         return element;
     }
 }
