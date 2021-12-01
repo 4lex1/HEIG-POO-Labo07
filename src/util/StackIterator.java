@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * @param <T> Type of contained element.
+ * @param <T> Type of contained elements.
  */
 class StackIterator<T> implements Iterator<T> {
     private Node<T> current;
